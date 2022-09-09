@@ -24,7 +24,7 @@
               <td>{{book.name}}</td>
               <td>{{book.author}}</td>
               <td>
-                <span v-if="book.has_read">Yes</span>
+                <span v-if="book.hasRead">Yes</span>
                 <span v-else>No</span>
               </td>
               <td>
