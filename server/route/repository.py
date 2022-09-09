@@ -1,13 +1,14 @@
 from functools import total_ordering
 import pyodbc
 from dto.Book import Book
+import config.conf as conf
 
 def connectToDb():
     #TODO: store these in a property/env file somewhere
-    server = '#'
-    database = '#'
-    username = '#'
-    password = '#'
+    server = conf.DB_ADDR
+    database = conf.DB_NAME
+    username = conf.DB_USER
+    password = conf.DB_PASS
     cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     return cnxn.cursor()
 
@@ -27,18 +28,14 @@ def getAllBooks():
         return bookList
 
 def getSingleBook(id):
-    bookList = []
     cursor = connectToDb()
     try:
         cursor.execute('SELECT * FROM dbo.Library WHERE Id = ?', id)
-        row = cursor.fetchone() 
-        bookList.append(list(row))
+        row = cursor.fetchone()
         cursor.close()
-        return bookList
+        return Book(row[0], row[1], row[2], row[3], row[4]) if row is not None else None
     except pyodbc.Error as err:
         print(err.args[1])
-    finally:
-        return bookList
 
 def removeBook(id):
     cursor = connectToDb()
