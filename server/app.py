@@ -16,7 +16,8 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 def books():
         response_object = {'status': 'FAILURE'}
         if request.method == 'GET':
-                return json.dumps(getAllBooks(), default=util.obj_dict)
+                books = getAllBooks()
+                return json.dumps(books, default=lambda o: o.encode())
         if request.method == 'POST':
                 post_data = request.get_json()
                 print(post_data.get('name'))

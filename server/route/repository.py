@@ -1,7 +1,9 @@
 from functools import total_ordering
 import pyodbc
+from flask import jsonify
 from dto.Book import Book
 import config.conf as conf
+import json
 
 def connectToDb():
     #TODO: store these in a property/env file somewhere
@@ -19,7 +21,8 @@ def getAllBooks():
         cursor.execute('SELECT * FROM dbo.Library')
         rows = cursor.fetchall() 
         for row in rows:
-            bookList.append(list(row))
+            #print(json.dumps(Book(row.Id,row.Name,row.Author,row.has_read,row.Available), default=lambda o: o.encode()))
+            bookList.append(Book(row.Id,row.Name,row.Author,row.has_read,row.Available))
         cursor.close()
         return bookList
     except pyodbc.Error as err:
