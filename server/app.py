@@ -20,7 +20,6 @@ def books():
                 return json.dumps(books, default=lambda o: o.encode())
         if request.method == 'POST':
                 post_data = request.get_json()
-                print(post_data.get('name'))
                 if addBook(post_data):
                         response_object = {'status': 'SUCCESS'}
         return jsonify(response_object)
