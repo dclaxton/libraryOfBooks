@@ -123,6 +123,7 @@ export default {
           hasRead: data.item.hasRead,
           available: data.item.available
         })
+        this.getBooks()
       }
     },
     addBook (payload) {
