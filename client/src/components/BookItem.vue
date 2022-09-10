@@ -22,12 +22,12 @@
             <span v-else>{{data.value}}</span>
           </template>
           <template #cell(hasRead)="data">
-            <b-form-select v-if="books[data.index].isEdit" v-model="books[data.index].hasRead" :options="['true', 'false']"></b-form-select>
+            <b-form-select v-if="books[data.index].isEdit" v-model="books[data.index].hasRead" :options="['Yes', 'No']"></b-form-select>
             <span v-else> <span v-if="data.value">Yes</span>
               <span v-else>No</span></span>
           </template>
           <template #cell(available)="data">
-            <b-form-select v-if="books[data.index].isEdit" v-model="books[data.index].available" :options="['true', 'false']"></b-form-select>
+            <b-form-select v-if="books[data.index].isEdit" v-model="books[data.index].available" :options="['Yes', 'No']"></b-form-select>
             <span v-else><span v-if="data.value">Yes</span>
             <span v-else>No</span></span>
           </template>
@@ -120,10 +120,11 @@ export default {
         axios.put(`http://localhost:5000/books/${data.item.id}`, {
           name: data.item.name,
           author: data.item.author,
-          hasRead: data.item.hasRead,
-          available: data.item.available
+          hasRead: data.item.hasRead === 'Yes',
+          available: data.item.available === 'Yes'
+        }).then(() => {
+          this.getAllBooks()
         })
-        this.getBooks()
       }
     },
     addBook (payload) {
@@ -131,7 +132,7 @@ export default {
       const path = 'http://localhost:5000/books'
       axios.post(path, payload)
         .then(() => {
-          this.getBooks()
+          this.getAllBooks()
         })
         .catch((error) => {
           // eslint-disable-next-line

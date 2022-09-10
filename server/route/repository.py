@@ -11,7 +11,7 @@ def connectToDb():
     database = conf.DB_NAME
     username = conf.DB_USER
     password = conf.DB_PASS
-    cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
+    cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
     return cnxn.cursor()
 
 def getAllBooks():
